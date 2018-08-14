@@ -3,6 +3,11 @@
 OPT=-O3     # Optimization option by default
 
 CC=gcc
+ARCH=x64
+ASM=TRUE
+AVX2=TRUE
+STATIC_LIB=TRUE
+
 ifeq "$(CC)" "gcc"
     COMPILER=gcc
 else ifeq "$(CC)" "clang"
@@ -97,6 +102,11 @@ ifeq "$(SHARED_LIB)" "TRUE"
 	SHARED_LIB_O=$(SHARED_LIB_TARGET)
 endif
 
+STATIC_LIBRARY_TARGET=libFourQ.a
+ifeq "$(STATIC_LIB)" "TRUE"
+    STATIC_LIB_O=$(STATIC_LIBRARY_TARGET)
+endif
+
 cc=$(COMPILER)
 CFLAGS=-c $(OPT) $(ADDITIONAL_SETTINGS) $(SIMD) -D $(ARCHITECTURE) -D __LINUX__ $(USE_AVX) $(USE_AVX2) $(USE_ASM) $(USE_GENERIC) $(USE_ENDOMORPHISMS) $(USE_SERIAL_PUSH) $(DO_MAKE_SHARED_LIB)
 LDFLAGS=
@@ -113,11 +123,16 @@ OBJECTS_ECC_TEST=ecc_tests.o $(OBJECTS) test_extras.o
 OBJECTS_CRYPTO_TEST=crypto_tests.o $(OBJECTS) test_extras.o 
 OBJECTS_ALL=$(OBJECTS) $(OBJECTS_FP_TEST) $(OBJECTS_ECC_TEST) $(OBJECTS_CRYPTO_TEST)
 
-all: crypto_test ecc_test fp_test $(SHARED_LIB_O)
+all: crypto_test ecc_test fp_test $(SHARED_LIB_O) $(STATIC_LIB_O)
 
 ifeq "$(SHARED_LIB)" "TRUE"
     $(SHARED_LIB_O): $(OBJECTS)
 	    $(CC) -shared -o $(SHARED_LIB_O) $(OBJECTS)
+endif
+
+ifeq "$(STATIC_LIB)" "TRUE"
+    $(STATIC_LIB_O): $(OBJECTS)
+	ar rcs $(STATIC_LIB_O) $(OBJECTS)
 endif
 
 crypto_test: $(OBJECTS_CRYPTO_TEST)
@@ -181,5 +196,5 @@ fp_tests.o: tests/fp_tests.c
 .PHONY: clean
 
 clean:
-	rm -f $(SHARED_LIB_TARGET) crypto_test ecc_test fp_test fp2_1271.o fp2_1271_AVX2.o AMD64/consts.s consts.o $(OBJECTS_ALL)
+	rm -f $(SHARED_LIB_TARGET) $(STATIC_LIBRARY_TARGET) crypto_test ecc_test fp_test fp2_1271.o fp2_1271_AVX2.o AMD64/consts.s consts.o $(OBJECTS_ALL)
 
