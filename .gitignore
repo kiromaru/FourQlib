@@ -24,6 +24,8 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
+# VS Code
+.vscode/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -50,6 +52,7 @@ artifacts/
 *.ilk
 *.meta
 *.obj
+*.o
 *.pch
 *.pdb
 *.pgc
@@ -68,6 +71,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.a
 
 # Chutzpah Test files
 _Chutzpah*
