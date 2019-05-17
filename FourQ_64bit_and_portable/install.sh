@@ -4,14 +4,14 @@ if [ -d ~/mylibs/include/FourQ ]
 then
     echo "Include dir already exists."
 else
-    mkdir ~/mylibs/include/FourQ
+    mkdir -p ~/mylibs/include/FourQ
 fi
 
 if [ -d ~/mylibs/lib ]
 then
     echo "Lib dir already exists."
 else
-    mkdir ~/mylibs/lib
+    mkdir -p ~/mylibs/lib
 fi
 
 cp *.h ~/mylibs/include/FourQ
