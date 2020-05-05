@@ -72,6 +72,11 @@ artifacts/
 *.svclog
 *.scc
 *.a
+*.la
+*.so
+*.so.*
+*.dll
+*.dylib
 
 # Chutzpah Test files
 _Chutzpah*
